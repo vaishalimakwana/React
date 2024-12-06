@@ -1,36 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import data from './data';
 import style from './style.css';
 
 export default function Accordion() {
-  const [selected, setSelected] = useState(null);
-
-  const handleSingleSelection = (showbox) => {
-    setSelected(selected === showbox ? null : showbox);
-  };
+  const [currentIndex, setCurrentIndex] = useState(null);
+  function handleClick(showBox) {
+    setCurrentIndex(currentIndex === showBox ? null : showBox);
+  }
   return (
     <div className="wrapper">
-      <h1 className="headerStyl">Accordion</h1>
-      <div className="accordion">
-        {data && data.length > 0 ? (
-          data.map((item) => (
+      {data && data.length > 0 ? (
+        data.map((item) => {
+          <div className="accordion">
             <div className="item" key={item.id}>
-              <div
-                className="title"
-                onClick={() => handleSingleSelection(item.id)}
-              >
+              <div className="title" onClick={() => handleClick(item.id)}>
                 {item.question}
-                <span>+</span>
+                <span>{currentIndex === {item.id}? '-': '+'}</span>
               </div>
-              {selected === item.id && (
-                <div className="content">{item.answer}</div>
-              )}
+              (setCurrentIndex === {item.id} ?
+              <div className="content">{item.answer}</div>)
             </div>
-          ))
-        ) : (
-          <div>Data Not Found !!</div>
-        )}
-      </div>
+          </div>;
+        })
+      ) : (
+        <div>No Data found !</div>
+      )}
     </div>
   );
 }
